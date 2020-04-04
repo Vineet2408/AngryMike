@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -12,11 +13,13 @@ import androidx.core.content.ContextCompat;
 
 class Game extends SurfaceView implements SurfaceHolder.Callback
 {
+    private  Player player;
     GameLoop gameLoop;
     public Game(Context context) {
         super(context);
         SurfaceHolder surfaceHolder=getHolder();
         surfaceHolder.addCallback(this);
+         player=new Player(getContext(),500,500,50);
 
         gameLoop=new GameLoop(this,surfaceHolder);
         setFocusable(true);
@@ -36,11 +39,28 @@ class Game extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceDestroyed(SurfaceHolder holder) {
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch(event.getAction())
+        {
+           case MotionEvent.ACTION_DOWN:
+                player.setPosition(event.getX(),event.getY());
+                return true;
+           case MotionEvent.ACTION_MOVE:
+                    player.setPosition(event.getX(),event.getY());
+                    return true;
+        }
+        return super.onTouchEvent(event);
+    }
+
+
+
     public void draw(Canvas canvas)
     {
         super.draw(canvas);
         drawUPS(canvas);
         drawFPS(canvas);
+        player.draw(canvas);
     }
 
    public void  drawUPS(Canvas canvas)
@@ -64,6 +84,9 @@ class Game extends SurfaceView implements SurfaceHolder.Callback
         canvas.drawText("Fps : "+avgFPS,100,100,paint);
 
     }
-    public void update() {
+    public void update()
+    {
+        player.update();
+
     }
 }
