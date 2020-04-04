@@ -39,6 +39,8 @@ class Game extends SurfaceView implements SurfaceHolder.Callback
     public void draw(Canvas canvas)
     {
         super.draw(canvas);
+        drawUPS(canvas);
+        drawFPS(canvas);
     }
 
    public void  drawUPS(Canvas canvas)
@@ -46,6 +48,8 @@ class Game extends SurfaceView implements SurfaceHolder.Callback
         String avgUPS=Double.toString(gameLoop.getAverageUPS());
         Paint paint=new Paint();
         paint.setColor(Color.RED);
+        paint.setTextSize(50);
+
 
         canvas.drawText("ups : "+avgUPS,100,20,paint);
 
@@ -55,8 +59,9 @@ class Game extends SurfaceView implements SurfaceHolder.Callback
         String avgFPS=Double.toString(gameLoop.getAverageFPS());
         Paint paint=new Paint();
         paint.setColor(Color.RED);
+        paint.setTextSize(50);
 
-        canvas.drawText("Fps : "+avgFPS,100,20,paint);
+        canvas.drawText("Fps : "+avgFPS,100,100,paint);
 
     }
     public void update() {
